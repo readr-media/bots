@@ -61,7 +61,7 @@ def post(bot, update):
     wks = sht[0]
     wks.insert_rows(row=0, number=1, values=post_message)
     chat_id = update.message.chat_id
-    bot.send_message(chat_id, "Thank you " + who + " to support Hong Kong, we will bring you message to all")
+    bot.send_message(chat_id, "謝謝" + who + "對香港運動的支持，我們會幫你把訊息傳給所有人")
 
 def show(bot, update):
     chat_id = update.message.chat_id
