@@ -75,8 +75,8 @@ dispatcher = Dispatcher(bot, None)
 # message.
 dispatcher.add_handler(MessageHandler(Filters.text, reply_handler))
 dispatcher.add_handler(CommandHandler('show', show))
-dispatcher.add_handler(CommandHandler('post', show))
-dispatcher.add_handler(CommandHandler('help', show))
+dispatcher.add_handler(CommandHandler('post', post))
+dispatcher.add_handler(CommandHandler('help', help))
 
 if __name__ == "__main__":
     # Running server
