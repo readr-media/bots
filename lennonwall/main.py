@@ -53,8 +53,7 @@ def help(bot, update):
     bot.send_message(chat_id, "/post: 傳送訊息到數位連儂牆\n /show: 查數位連儂牆網址\n /help: 秀出這則訊息")
 
 def post(bot, update):    
-    text = update.message.text
-    text.replace("/post ", "")
+    text = update.message.text.replace("/post ", "")
     who = update.message.from_user.username
     post_date = update.message.date.strftime("%m/%d/%Y, %H:%M:%S")
     post_message = [who, text, post_date]
