@@ -14,8 +14,11 @@ RUN apk update \
     && pip install --upgrade pip \
     && pip install -r requirements.txt
 
+# use uWsgi from alpine pkg not from pip
+RUN apk add uwsgi-python3
+
 COPY . /usr/src/app/lennonwall
 
 EXPOSE 8080
 
-CMD ["/usr/local/bin/uwsgi", "--ini", "server.ini"]
+CMD ["uwsgi", "--ini", "server.ini"]
