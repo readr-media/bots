@@ -19,7 +19,7 @@ import (
 	"os"
 	"strconv"
 
-	"github.com/line/line-bot-sdk-go"
+	"github.com/line/line-bot-sdk-go/linebot"
 )
 
 var bot *linebot.Client

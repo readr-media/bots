@@ -14,6 +14,8 @@ ADD . /app
 WORKDIR /app
 # we run go build to compile the binary
 # executable of our Go program
+RUN apk add git
+RUN go get github.com/line/line-bot-sdk-go/linebot
 RUN go build -o main .
 # Our start command which kicks off
 # our newly created binary executable
