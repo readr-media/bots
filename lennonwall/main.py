@@ -47,7 +47,8 @@ def reply_handler(bot, update):
     update.message.reply_text("謝謝 " + who + " 支持香港居民的行動")
 
 def help(bot, update):
-    bot.send_message(chat_id = update.message.chat_id, "/post: 傳送訊息到數位連儂牆\n /show: 查數位連儂牆網址\n /help: 秀出這則訊息")
+    chat_id = update.message.chat_id
+    bot.send_message(chat_id, "/post: 傳送訊息到數位連儂牆\n /show: 查數位連儂牆網址\n /help: 秀出這則訊息")
 
 def post(bot, update):    
     text = update.message.text
@@ -57,7 +58,8 @@ def post(bot, update):
     # For google sheet
     wks = sht[0]
     wks.insert_rows(row=0, number=1, values=post_message)
-    bot.send_message(chat_id = update.message.chat_id, "Thank you " + who + " to support Hong Kong, we will bring you message to all")
+    chat_id = update.message.chat_id
+    bot.send_message(chat_id, "Thank you " + who + " to support Hong Kong, we will bring you message to all")
 
 def show(bot, update):
     chat_id = update.message.chat_id
