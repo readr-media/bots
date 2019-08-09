@@ -44,6 +44,7 @@ def webhook_handler():
 
 def reply_handler(bot, update):
     """Reply message."""
+    who = update.message.from_user.username
     update.message.reply_text("謝謝 " + who + " 支持香港居民的行動")
 
 def help(bot, update):
