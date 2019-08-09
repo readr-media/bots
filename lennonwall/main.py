@@ -7,6 +7,7 @@ import telegram
 #from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 from flask import Flask, request
 from telegram.ext import Dispatcher, MessageHandler, Filters, CommandHandler
+from telegram import InlineKeyboardMarkup, InlineKeyboardButton
 
 
 # Load data from config.ini file
@@ -43,6 +44,12 @@ def webhook_handler():
 
 def reply_handler(bot, update):
     """Reply message."""
+    update.message.reply_text("謝謝 " + who + " 支持香港居民的行動")
+
+def help(bot, update):
+    bot.send_message(chat_id = update.message.chat_id, "/post: 傳送訊息到數位連儂牆\n /show: 查數位連儂牆網址\n /help: 秀出這則訊息")
+
+def post(bot, update):    
     text = update.message.text
     who = update.message.from_user.username
     post_date = update.message.date
@@ -50,12 +57,13 @@ def reply_handler(bot, update):
     # For google sheet
     wks = sht[0]
     wks.insert_rows(row=0, number=1, values=post_message)
-    update.message.reply_text("Thank you, " + who)
+    bot.send_message(chat_id = update.message.chat_id, "Thank you " + who + " to support Hong Kong, we will bring you message to all")
 
-def show():
-    bot.send_message(chat_id, 'READr',
+def show(bot, update):
+    chat_id = update.message.chat_id
+    bot.send_message(chat_id, 'READr 數位專題',
         reply_markup = InlineKeyboardMarkup([[
-            InlineKeyboardButton('線上連儂牆', url = 'https://www.readr.tw/')]]))
+            InlineKeyboardButton('數位連儂牆', url = 'https://www.readr.tw/')]]))
 
 # New a dispatcher for bot
 dispatcher = Dispatcher(bot, None)
@@ -64,6 +72,8 @@ dispatcher = Dispatcher(bot, None)
 # message.
 dispatcher.add_handler(MessageHandler(Filters.text, reply_handler))
 dispatcher.add_handler(CommandHandler('show', show))
+dispatcher.add_handler(CommandHandler('post', show))
+dispatcher.add_handler(CommandHandler('help', show))
 
 if __name__ == "__main__":
     # Running server
