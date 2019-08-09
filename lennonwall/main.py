@@ -5,6 +5,7 @@ import pygsheets
 
 import telegram
 #from telegram import InlineKeyboardMarkup, InlineKeyboardButton
+from datetime import datetime
 from flask import Flask, request
 from telegram.ext import Dispatcher, MessageHandler, Filters, CommandHandler
 from telegram import InlineKeyboardMarkup, InlineKeyboardButton
@@ -54,7 +55,7 @@ def help(bot, update):
 def post(bot, update):    
     text = update.message.text
     who = update.message.from_user.username
-    post_date = update.message.date
+    post_date = update.message.date.strftime("%m/%d/%Y, %H:%M:%S")
     post_message = [who, text, post_date]
     # For google sheet
     wks = sht[0]
