@@ -54,6 +54,7 @@ def help(bot, update):
 
 def post(bot, update):    
     text = update.message.text
+    text.replace("/post ", "")
     who = update.message.from_user.username
     post_date = update.message.date.strftime("%m/%d/%Y, %H:%M:%S")
     post_message = [who, text, post_date]
