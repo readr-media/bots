@@ -17,7 +17,7 @@ config.read('config.ini')
 
 #init the google sheet
 gc = pygsheets.authorize(service_file='./client_secret.json')
-sht = gc.open_by_key('1g41fSsslyb4RiU8nXD7N3sIfVhSJDT_yrbd0DDUXYeQ')
+sht = gc.open_by_key(config['SPREADSHEET']['ID'])
 
 # Enable logging
 logging.basicConfig(format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
@@ -58,7 +58,7 @@ def post(bot, update):
     post_date = update.message.date.strftime("%m/%d/%Y, %H:%M:%S")
     post_message = [who, text, post_date]
     # For google sheet
-    wks = sht[0]
+    wks = sht[2]
     wks.insert_rows(row=0, number=1, values=post_message)
     chat_id = update.message.chat_id
     bot.send_message(chat_id, "謝謝" + who + "對香港運動的支持，我們會幫你把訊息傳給所有人")
