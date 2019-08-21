@@ -55,8 +55,8 @@ def help(bot, update):
 def post(bot, update):    
     text = update.message.text.replace("/post ", "")
     who = update.message.from_user.username
-    post_date = update.message.date.strftime("%m/%d/%Y, %H:%M:%S")
-    post_message = [who, text, post_date]
+    post_date = update.message.date.timestamp()
+    post_message = [text, who, post_date]
     # For google sheet
     wks = sht[config['SPREADSHEET']['SHEET']]
     wks.insert_rows(row=0, number=1, values=post_message)
