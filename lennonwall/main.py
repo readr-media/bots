@@ -45,32 +45,54 @@ def webhook_handler():
 
 def reply_handler(bot, update):
     """Reply message."""
-    who = update.message.from_user.username
-    update.message.reply_text("謝謝 " + who + " 支持香港居民的行動")
+    if (update.message):
+        who = update.message.from_user.username
+        update.message.reply_text("謝謝" + who + "支持香港居民的行動")
+    elif (update.channel_post):
+        print(update.channel_post.text[0:10] + ":" + update.channel_post.text[11:16])
+        if update.channel_post.text[0:10] == '@LennonBot':
+            if update.channel_post.text[11:16] == '/help':
+                print("here")
+                help(bot, update)
+            elif update.channel_post.text[11:16] == '/show':
+                show(bot, update)
+            elif update.channel_post.text[11:16] == '/post':
+                post(bot, update)
+            else:
+                bot.send_message("@readr_lennonwall", "謝謝你支持香港居民的行動")
 
 def help(bot, update):
-    chat_id = update.message.chat_id
+    if (update.message):
+        chat_id = update.message.chat_id
+    elif (update.channel_post):
+        chat_id = update.channel_post.chat_id
     bot.send_message(chat_id, "/post: 傳送訊息到數位連儂牆\n /show: 查數位連儂牆網址\n /help: 秀出這則訊息")
 
 def post(bot, update):    
-    text = update.message.text.replace("/post ", "")
-    who = update.message.from_user.username
-    post_date = update.message.date.timestamp()
+    if (update.message):
+        chat_id = update.message.chat_id
+        text = update.message.text.replace("/post ", "")
+        post_date = update.message.date.timestamp() * 1000
+        who = update.message.from_user.username
+    elif (update.channel_post):
+        chat_id = update.channel_post.chat_id
+        text = update.channel_post.text[16:]
+        post_date = update.channel_post.date.timestamp() * 1000
+        who = "from telegram"
     post_message = [text, who, post_date]
     # For google sheet
-    if sht:
-        wks = sht[2]
-        wks.insert_rows(row=0, number=1, values=post_message)
-        chat_id = update.message.chat_id
-        bot.send_message(chat_id, "謝謝" + who + "對香港運動的支持，我們會幫你把訊息傳給所有人")
-    else:
-        bot.send_message(chat_id, "抱歉，現在系統有點問題...")
+    wks = sht.worksheet_by_title("連儂牆留言板")
+    wks.insert_rows(row=1, number=1, values=post_message)
+    bot.send_message(chat_id, "謝謝" + who + "對香港運動的支持，我們會幫你把訊息傳給所有人")
 
 def show(bot, update):
-    chat_id = update.message.chat_id
+    if (update.message):
+        chat_id = update.message.chat_id
+    elif (update.channel_post):
+        chat_id = update.channel_post.chat_id
     bot.send_message(chat_id, 'READr 數位專題',
         reply_markup = InlineKeyboardMarkup([[
-            InlineKeyboardButton('數位連儂牆', url = 'https://www.readr.tw/')]]))
+            InlineKeyboardButton('數位連儂牆', url = 'https://www.readr.tw/project/hong-kong-protests-2019/lennon-wall')]]))
 
 # New a dispatcher for bot
 dispatcher = Dispatcher(bot, None)
