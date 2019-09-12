@@ -58,10 +58,13 @@ def post(bot, update):
     post_date = update.message.date.timestamp()
     post_message = [text, who, post_date]
     # For google sheet
-    wks = sht[config['SPREADSHEET']['SHEET']]
-    wks.insert_rows(row=0, number=1, values=post_message)
-    chat_id = update.message.chat_id
-    bot.send_message(chat_id, "謝謝" + who + "對香港運動的支持，我們會幫你把訊息傳給所有人")
+    if sht:
+        wks = sht[2]
+        wks.insert_rows(row=0, number=1, values=post_message)
+        chat_id = update.message.chat_id
+        bot.send_message(chat_id, "謝謝" + who + "對香港運動的支持，我們會幫你把訊息傳給所有人")
+    else:
+        bot.send_message(chat_id, "抱歉，現在系統有點問題...")
 
 def show(bot, update):
     chat_id = update.message.chat_id
