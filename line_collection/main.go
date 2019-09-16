@@ -26,8 +26,8 @@ var bot *linebot.Client
 func main() {
 	var err error
 	var secret = flag.String("ChannelSecret", "", "Pass the Channel Secret")
-	var token = flag.StringVar("ChannelAccessToken", "", "Pass the Channel Access Token")
-	var port = flag.StringVar("port", "", "Pass the port of running the bot")
+	var token = flag.String("ChannelAccessToken", "", "Pass the Channel Access Token")
+	var port = flag.String("port", "", "Pass the port of running the bot")
 	bot, err = linebot.New(secret, token)
 	log.Println("Bot:", bot, " err:", err)
 	http.HandleFunc("/linehook", callbackHandler)
