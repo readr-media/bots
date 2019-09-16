@@ -13,6 +13,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -25,10 +26,12 @@ var bot *linebot.Client
 
 func main() {
 	var err error
-	bot, err = linebot.New(os.Getenv("ChannelSecret"), os.Getenv("ChannelAccessToken"))
+	flag.StringVar(&secret, "ChannelSecret", "", "Pass the Channel Secret")
+	flag.StringVar(&token, "ChannelAccessToken", "", "Pass the Channel Access Token")
+	flag.StringVar(&port, "port", "", "Pass the port of running the bot")
+	bot, err = linebot.New(secret), token)
 	log.Println("Bot:", bot, " err:", err)
 	http.HandleFunc("/linehook", callbackHandler)
-	port := os.Getenv("PORT")
 	addr := fmt.Sprintf(":%s", port)
 	http.ListenAndServe(addr, nil)
 }

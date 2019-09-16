@@ -19,4 +19,4 @@ RUN go get github.com/line/line-bot-sdk-go/linebot
 RUN go build -o main .
 # Our start command which kicks off
 # our newly created binary executable
-CMD ["/app/main"]
+CMD ["/app/main -ChannelSecret= -ChannelAccessToken= -port=8080"]
